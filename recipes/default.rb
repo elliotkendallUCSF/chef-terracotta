@@ -86,3 +86,7 @@ end
 link "/var/log/terracotta" do
   to "#{node.terracotta.home}/logs"
 end
+
+link "#{node.terracotta.symlink_home}" do
+  to "#{node.terracotta.home}"
+end
