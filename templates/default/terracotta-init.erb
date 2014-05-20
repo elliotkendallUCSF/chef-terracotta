@@ -27,13 +27,17 @@ TC_CONFIG="$TC_HOME/tc-config.xml"
 TC_USER=root
 # the identity of this node
 TC_SERVER="<%= node[:hostname] %>"
+
+if [ -f /etc/sysconfig/terracotta ]; then
+    . /etc/sysconfig/terracotta
+fi
  
 start() {
     #
     # Start Terracotta
     #
     echo "Starting Terracotta Server as " ${TC_SERVER}
-    su - $TC_USER -c "JAVA_HOME=$JAVA_HOME ${TC_HOME}/bin/start-tc-server.sh -n ${TC_SERVER} -f ${TC_CONFIG} 2>&1 &" > ${TC_LOGS}/terracotta.log &
+    su - $TC_USER -c "JAVA_OPTS=$JAVA_OPTS JAVA_HOME=$JAVA_HOME ${TC_HOME}/bin/start-tc-server.sh -n ${TC_SERVER} -f ${TC_CONFIG} 2>&1 &" > ${TC_LOGS}/terracotta.log &
 }
  
 stop() {
@@ -41,7 +45,7 @@ stop() {
     # Stop Terracotta
     #
     echo "Stopping Terracotta Server ..."
-    su - $TC_USER -c "${TC_HOME}/bin/stop-tc-server.sh 2>&1 &"  > ${TC_LOGS}/terracotta.log &
+    su - $TC_USER -c "${TC_HOME}/bin/stop-tc-server.sh -force 2>&1 &"  > ${TC_LOGS}/terracotta.log &
 }
  
 case "$1" in

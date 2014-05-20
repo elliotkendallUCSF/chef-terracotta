@@ -12,7 +12,7 @@
             </dso>
             <logs><%= node["terracotta"]["home"] %>/cluster/server/logs</logs>
             <data><%= node["terracotta"]["home"] %>/cluster/server/data</data>
-            <statistics><%= node["terracotta"]["home"] %>/cluster/server/stats</statistics>
+            <statistics><%= node["terracotta"]["home"] %>/cluster/server/%(instance-name)/stats</statistics>
         </server>
 <% end -%>
 

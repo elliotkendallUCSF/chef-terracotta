@@ -58,6 +58,12 @@ node["terracotta"]["toolkits"].each do |tk,version|
   end
 end
 
+template "/etc/sysconfig/terracotta" do
+  source "terracotta-sysconfig.erb"
+  mode '0644'
+  action :create
+end
+
 template "/etc/init.d/terracotta" do
   source "terracotta-init.erb"
   mode '0755'
@@ -74,8 +80,7 @@ template "#{node.terracotta.home}/tc-config.xml" do
   action :create
   variables(
     # Find all other terracotta nodes in this environment
-#    :servers => search(:node, 'chef_environment:#{node.chef_environment} AND recipes:terracotta')
-    :servers => search(:node, 'recipes:terracotta')
+    :servers => search(:node, "chef_environment:#{node.chef_environment} AND recipes:terracotta")
   )
 end
 
